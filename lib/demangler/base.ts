@@ -28,6 +28,24 @@ import { SymbolStore } from '../symbol-store';
 import * as utils from '../utils';
 
 export class BaseDemangler extends AsmRegex {
+    demanglerExe: any;
+    demanglerArguments: any[];
+    symbolstore: any;
+    othersymbols: SymbolStore;
+    result: any;
+    input: any[];
+    includeMetadata: boolean;
+    compiler: any;
+    jumpDef: RegExp;
+    callDef: RegExp;
+    callPtrDef1: RegExp;
+    callPtrDef2: RegExp;
+    callPtrDef3: RegExp;
+    callPtrDef4: RegExp;
+    movUnderscoreDef: RegExp;
+    leaUnderscoreDef: RegExp;
+    quadUnderscoreDef: RegExp;
+
     /**
      *
      * @param {string} demanglerExe
@@ -101,7 +119,7 @@ export class BaseDemangler extends AsmRegex {
         for (let j = 0; j < this.result.asm.length; ++j) {
             const line = this.result.asm[j].text;
 
-            let matches = line.match(this.labelDef);
+            const matches = line.match(this.labelDef);
             if (matches) {
                 const midx = matches.length - 1;
                 this.symbolstore.add(matches[midx], matches[midx]);
@@ -129,7 +147,7 @@ export class BaseDemangler extends AsmRegex {
         return this.input.join('\n');
     }
 
-    getMetadata() {
+    getMetadata(symbol) {
         return [];
     }
 
@@ -188,7 +206,7 @@ export class BaseDemangler extends AsmRegex {
     }
 
     async process(result, execOptions) {
-        let options = execOptions || {};
+        const options = execOptions || {};
         this.result = result;
 
         if (!this.symbolstore) {

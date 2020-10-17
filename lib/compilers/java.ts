@@ -193,6 +193,7 @@ export class JavaCompiler extends BaseCompiler {
         for (const codeAndLineNumberTable of codeAndLineNumberTables) {
             const method = {
                 instructions: [],
+                startLine: undefined,
             };
             methods.push(method);
 
@@ -213,7 +214,7 @@ export class JavaCompiler extends BaseCompiler {
                 }
             }
 
-            let lineRegex = /line\s*(\d+):\s*(\d+)/g;
+            const lineRegex = /line\s*(\d+):\s*(\d+)/g;
             let m;
             let currentInstr = 0;
             let currentSourceLine = -1;

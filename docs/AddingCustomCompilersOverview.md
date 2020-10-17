@@ -15,7 +15,7 @@ This is an overview of what building and adding a compiler to the site looks lik
 * If we need to customise the way we execute the compiler and/or display the results,
    then we can change the "[driver](https://github.com/compiler-explorer/compiler-explorer/tree/master/lib/compilers)"
    for the compiler. Usually we can just override a few aspects of the driver,
-   relying on the defaults from the [base driver](https://github.com/compiler-explorer/compiler-explorer/blob/master/lib/base-compiler.js).
+   relying on the defaults from the [base driver](https://github.com/compiler-explorer/compiler-explorer/blob/master/lib/base-compiler.ts).
 * Any UI changes are a bit more work.
 
 More info still in [Adding a Compiler](https://github.com/compiler-explorer/compiler-explorer/blob/master/docs/AddingACompiler.md),
