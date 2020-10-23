@@ -143,7 +143,7 @@ export class BaseCompiler {
         return {mtime: this.mtime, compiler, args, options};
     }
 
-    async execCompilerCached(compiler, args, options: exec.ExecutionOptions, useExecutionQueue) {
+    async execCompilerCached(compiler, args, options: exec.ExecutionOptions, useExecutionQueue?) {
         const key = this.getCompilerCacheKey(compiler, args, options);
         let result = await this.env.compilerCacheGet(key);
         if (!result) {
