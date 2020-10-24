@@ -733,8 +733,6 @@ async function main() {
 }
 
 main()
-    .then(() => {
-    })
     .catch(err => {
         logger.error('Top-level error (shutting down):', err);
         process.exit(1);
