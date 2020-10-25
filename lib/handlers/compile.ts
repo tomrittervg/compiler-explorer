@@ -212,7 +212,8 @@ export class CompileHandler {
     }
 
     parseRequest(req, compiler) {
-        let source, options, backendOptions: any = {}, filters, bypassCache = false, tools, executionParameters: any = {};
+        let source, options, backendOptions: any = {}, filters, bypassCache = false, tools;
+        const executionParameters: any = {};
         let libraries = [];
         // IF YOU MODIFY ANYTHING HERE PLEASE UPDATE THE DOCUMENTATION!
         if (req.is('json')) {

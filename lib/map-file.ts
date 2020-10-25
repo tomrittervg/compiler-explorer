@@ -334,7 +334,7 @@ export class MapFileReader {
      *
      * @param {string} line
      */
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-empty-function
     tryReadingNamedAddress(line) {
     }
 
@@ -344,7 +344,7 @@ export class MapFileReader {
      *
      * @param {string} line
      */
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-empty-function
     tryReadingCodeSegmentInfo(line) {
     }
 
@@ -366,7 +366,7 @@ export class MapFileReader {
      *
      * @param {string} line
      */
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-empty-function
     tryReadingPreferredAddress(line) {
     }
 

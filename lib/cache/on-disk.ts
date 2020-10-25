@@ -56,10 +56,12 @@ export class OnDiskCache extends BaseCache {
             length: n => n.size,
             noDisposeOnSet: true,
             dispose: (key, n) => {
-                fs.unlink(n.path, () => {});
+                fs.unlink(n.path, () => {
+                    // Does nothing...we just care that it's not there any more.
+                });
             },
         });
-        fs.mkdirSync(path, { recursive: true });
+        fs.mkdirSync(path, {recursive: true});
         const info = getAllFiles(path).map(({name, fullPath}) => {
             const stat = fs.statSync(fullPath);
             return {

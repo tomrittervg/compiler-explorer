@@ -42,7 +42,7 @@ export class CompilationEnvironment {
     compilerCache: BaseCache;
     reportCacheEvery: any;
     multiarch: any;
-    baseEnv: {};
+    baseEnv: Record<string, string>;
 
     constructor(compilerProps, compilationQueue, doCache) {
         this.ceProps = compilerProps.ceProps;

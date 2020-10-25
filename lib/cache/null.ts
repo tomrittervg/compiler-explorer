@@ -34,5 +34,6 @@ export class NullCache extends BaseCache {
     }
 
     async putInternal() {
+        // Null cache doesn't do anything on put.
     }
 }

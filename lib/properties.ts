@@ -122,7 +122,7 @@ export function propsFor(base) {
  */
 export class CompilerProps {
     languages: any;
-    propsByLangId: {};
+    propsByLangId: Record<string, any>;
     ceProps: any;
 
     /***

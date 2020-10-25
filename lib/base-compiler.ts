@@ -246,7 +246,7 @@ export class BaseCompiler {
 
         return _.find(foundLib.versions, (o, versionId) => (
             versionId === selectedLib.version ||
-                (o.alias && o.alias.includes(selectedLib.version))));
+            (o.alias && o.alias.includes(selectedLib.version))));
     }
 
     findAutodetectStaticLibLink(linkname) {
@@ -673,7 +673,8 @@ export class BaseCompiler {
             if (outputFilename) {
                 logger.debug(`Using cached package ${outputFilename}`);
                 await this.packager.unpack(outputFilename, dirPath);
-                const buildResults = JSON.parse((await fs.readFile(path.join(dirPath, compilationResultFilename))).toString());
+                const buildResults = JSON.parse(
+                    (await fs.readFile(path.join(dirPath, compilationResultFilename))).toString());
                 return Object.assign({}, buildResults, {
                     code: 0,
                     inputFilename: path.join(dirPath, this.compileFilename),
@@ -730,7 +731,7 @@ export class BaseCompiler {
                     stdout: [],
                 };
 
-                verboseResult.buildResult.stderr.push({text:'Compiler did not produce an executable'});
+                verboseResult.buildResult.stderr.push({text: 'Compiler did not produce an executable'});
 
                 return verboseResult;
             }

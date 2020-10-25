@@ -116,7 +116,6 @@ export class LlvmIrParser {
 
         irLines.forEach(line => {
             const source = null;
-            let match;
 
             if (line.trim().length === 0) {
                 // Avoid multiple successive empty lines.
@@ -132,7 +131,7 @@ export class LlvmIrParser {
             }
 
             // Non-Meta IR line. Metadata is attached to it using "!dbg !123"
-            match = line.match(this.debugReference);
+            const match = line.match(this.debugReference);
             if (match) {
                 result.push({
                     text: (filters.trim ? utils.squashHorizontalWhitespace(line) : line),

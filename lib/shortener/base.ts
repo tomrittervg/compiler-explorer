@@ -29,7 +29,7 @@ export class BaseShortener {
         this.storageHandler = storageHandler;
     }
 
-    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-empty-function
     handle(req, res) {
     }
 }

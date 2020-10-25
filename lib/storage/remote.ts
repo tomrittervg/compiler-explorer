@@ -89,5 +89,6 @@ export class StorageRemote extends StorageBase {
     }
 
     async incrementViewCount() {
+        // Does not track view counts.
     }
 }
