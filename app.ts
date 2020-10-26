@@ -34,13 +34,13 @@ import url from 'url';
 
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
-import bodyParser from 'body-parser';
+import * as bodyParser from 'body-parser';
 import compression from 'compression';
 import express from 'express';
 import fs from 'fs-extra';
 import morgan from 'morgan';
 import nopt from 'nopt';
-import PromClient from 'prom-client';
+import * as PromClient from 'prom-client';
 import responseTime from 'response-time';
 import sFavicon from 'serve-favicon';
 import systemdSocket from 'systemd-socket';
@@ -275,8 +275,8 @@ function setupEventLoopLagLogging() {
     }
 }
 
-let pugRequireHandler = (path:string) => {
-    logger.error('pug require handler not configured');
+let pugRequireHandler = (path: string) => {
+    logger.error(`pug require handler not configured (tried to get ${path})`);
 };
 
 async function setupWebPackDevMiddleware(router) {
@@ -410,7 +410,7 @@ function setupSentry(sentryDsn, expressApp) {
             // enable HTTP calls tracing
             new Sentry.Integrations.Http({tracing: true}),
             // enable Express.js middleware tracing
-            new Tracing.Integrations.Express({ app: expressApp }),
+            new Tracing.Integrations.Express({app: expressApp}),
         ],
         tracesSampleRate: 0.1,
     });
@@ -538,7 +538,7 @@ async function main() {
         })
         // sentry error handler must be the first error handling middleware
         .use(Sentry.Handlers.errorHandler)
-        // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .use((err, req, res, next) => {
             const status =
                 err.status ||
@@ -614,7 +614,7 @@ async function main() {
         await setupStaticMiddleware(router);
     }
 
-    morgan.token('gdpr_ip', (req: any) => utils.anonymizeIp(req.ip));
+    morgan.token('gdpr_ip', (req: express.Request) => utils.anonymizeIp(req.ip));
 
     // Based on combined format, but: GDPR compliant IP, no timestamp & no unused fields for our usecase
     const morganFormat: string = isDevMode() ? 'dev' : ':gdpr_ip ":method :url" :status';
