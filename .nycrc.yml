@@ -2,6 +2,7 @@ all: true
 include:
   - app.ts
   - lib/**/*.ts
+extends: "@istanbuljs/nyc-config-typescript"
 exclude:
   - lib/handlers/asm-docs.ts
   - lib/compilers/fake-for-test.ts
@@ -10,3 +11,5 @@ reporter:
   - lcov
 require:
   - esm
+  - ts-node/register
+  - source-map-support/register
