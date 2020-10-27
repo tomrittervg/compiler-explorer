@@ -11,5 +11,5 @@ reporter:
   - lcov
 require:
   - esm
-  - ts-node/register
   - source-map-support/register
+  - ts-node/register
