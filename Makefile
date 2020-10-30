@@ -44,7 +44,7 @@ webpack: $(NODE_MODULES)  ## Runs webpack (useful only for debugging webpack)
 	rm -rf out/dist/static out/dist/manifest.json
 	$(WEBPACK) $(WEBPACK_ARGS)
 
-lint: $(NODE_MODULES)  ## Checks if the source currently matches code conventions
+lint: $(NODE_MODULES) ts-compile  ## Checks if the source currently matches code conventions
 	$(NPM) run lint
 
 lint-fix: $(NODE_MODULES)  ## Checks if everything matches code conventions & fixes those which are trivial to do so
@@ -81,10 +81,15 @@ debug: export NODE_ENV=development
 debug: prereqs install-git-hooks ## Runs the site as a developer with full debugging; including live reload support and installation of git hooks
 	./node_modules/.bin/supervisor -w app.ts,lib,etc/config -e 'ts|node|properties|yaml' -n exit --exec $(NODE) $(NODE_ARGS) -- -r esm -r ts-node/register ./app.ts --debug $(EXTRA_ARGS)
 
+.PHONY: ts-compile
+# one day we'll put `--strict` in this
+ts-compile: prereqs
+	./node_modules/.bin/tsc
+
 HASH := $(shell git rev-parse HEAD)
 dist: export NODE_ENV=production
 dist: export WEBPACK_ARGS=-p
-dist: prereqs webpack  ## Creates a distribution
+dist: prereqs webpack ts-compile  ## Creates a distribution
 	echo $(HASH) > out/dist/git_hash
 
 SENTRY := ./node_modules/.bin/sentry-cli
