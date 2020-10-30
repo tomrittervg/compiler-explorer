@@ -32,6 +32,7 @@ import path from 'path';
 import process from 'process';
 import url from 'url';
 
+import * as Integrations from '@sentry/integrations';
 import * as Sentry from '@sentry/node';
 import * as Tracing from '@sentry/tracing';
 import * as bodyParser from 'body-parser';
@@ -407,6 +408,7 @@ function setupSentry(sentryDsn, expressApp) {
             return event;
         },
         integrations: [
+            new Integrations.RewriteFrames({root: ceProps('sentryRootDir')}),
             // enable HTTP calls tracing
             new Sentry.Integrations.Http({tracing: true}),
             // enable Express.js middleware tracing
