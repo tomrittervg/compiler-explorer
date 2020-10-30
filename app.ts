@@ -537,7 +537,7 @@ async function main() {
             next({status: 404, message: `page "${req.path}" could not be found`});
         })
         // sentry error handler must be the first error handling middleware
-        .use(Sentry.Handlers.errorHandler)
+        .use(Sentry.Handlers.errorHandler())
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         .use((err, req, res, next) => {
             const status =
