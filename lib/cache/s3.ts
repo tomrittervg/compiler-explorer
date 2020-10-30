@@ -39,8 +39,8 @@ export class S3Cache extends BaseCache {
     region: any;
     s3: S3Bucket;
 
-    constructor(bucket, path, region) {
-        super(`S3Cache(s3://${bucket}/${path} in ${region})`);
+    constructor(cacheName, bucket, path, region) {
+        super(cacheName, `S3Cache(s3://${bucket}/${path} in ${region})`, 's3');
         this.bucket = bucket;
         this.path = path;
         this.region = region;

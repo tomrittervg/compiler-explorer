@@ -22,22 +22,42 @@
 // ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 // POSSIBILITY OF SUCH DAMAGE.
 
+import { Counter } from 'prom-client';
+
 import { logger } from '../logger';
 import { getHash } from '../utils';
 
 const HashVersion = 'Compiler Explorer Cache Version 1';
 
+const GetCounter = new Counter({
+    name: 'ce_cache_get_total',
+    help: 'Total number of cache gets',
+    labelNames: ['result', 'name', 'type'],
+});
+
+const PutCounter = new Counter({
+    name: 'ce_cache_put_total',
+    help: 'Total number of cache puts',
+    labelNames: ['type', 'name'],
+});
+
 export class BaseCache {
-    name: any;
+    cacheName: string;
+    details: string;
+    type: string;
     gets: number;
     hits: number;
     puts: number;
+    countersEnabled: boolean;
 
-    constructor(name) {
-        this.name = name;
+    constructor(cacheName: string, details: string, type: string) {
+        this.cacheName = cacheName;
+        this.details = details;
+        this.type = type;
         this.gets = 0;
         this.hits = 0;
         this.puts = 0;
+        this.countersEnabled = true;
     }
 
     stats() {
@@ -51,7 +71,7 @@ export class BaseCache {
     }
 
     report() {
-        logger.info(`${this.name}: cache stats: ${this.statString()}`);
+        logger.info(`${this.cacheName} ${this.details}: cache stats: ${this.statString()}`);
     }
 
     static hash(object) {
@@ -62,6 +82,8 @@ export class BaseCache {
         this.gets++;
         const result = await this.getInternal(key);
         if (result.hit) this.hits++;
+        if (this.countersEnabled)
+            GetCounter.inc({type: this.type, name: this.cacheName, result: result.hit ? 'hit' : 'miss'});
         return result;
     }
 
@@ -69,6 +91,8 @@ export class BaseCache {
         if (!(value instanceof Buffer))
             value = Buffer.from(value);
         this.puts++;
+        if (this.countersEnabled)
+            PutCounter.inc({type: this.type, name: this.cacheName});
         return this.putInternal(key, value, creator);
     }
 

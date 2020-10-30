@@ -38,13 +38,13 @@ function paramInt(config, param) {
     return result;
 }
 
-function createInternal(config): BaseCache {
+function createInternal(name:string, config): BaseCache {
     if (!config) {
-        return new NullCache();
+        return new NullCache(name);
     }
     const parts = config.split(';');
     if (parts.length > 1) {
-        return new MultiCache(...parts.map(part => createInternal(part)));
+        return new MultiCache(name, ...parts.map(part => createInternal(name, part)));
     }
     const match = config.match(/^([^(]+)\(([^)]+)\)$/);
     if (!match)
@@ -54,25 +54,25 @@ function createInternal(config): BaseCache {
         case 'InMemory':
             if (params.length !== 1)
                 throw new Error(`Bad params: ${config}`);
-            return new InMemoryCache(paramInt(config, params[0]));
+            return new InMemoryCache(name, paramInt(config, params[0]));
 
         case 'OnDisk':
             if (params.length !== 2)
                 throw new Error(`Bad params: ${config}`);
-            return new OnDiskCache(params[0], paramInt(config, params[1]));
+            return new OnDiskCache(name, params[0], paramInt(config, params[1]));
 
         case 'S3':
             if (params.length !== 3)
                 throw new Error(`Bad params: ${config}`);
-            return new S3Cache(params[0], params[1], params[2]);
+            return new S3Cache(name, params[0], params[1], params[2]);
 
         default:
             throw new Error(`Unrecognised cache type '${match[1]}'`);
     }
 }
 
-export function createCacheFromConfig(config) {
-    const result = createInternal(config);
-    logger.info(`Created cache of type ${result.name}`);
+export function createCacheFromConfig(name, config) {
+    const result = createInternal(name, config);
+    logger.info(`Created cache ${name} of type ${result.type}`);
     return result;
 }

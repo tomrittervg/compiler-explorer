@@ -30,8 +30,8 @@ export class InMemoryCache extends BaseCache {
     cacheMb: any;
     cache: LRU<any, any>;
 
-    constructor(cacheMb) {
-        super(`InMemoryCache(${cacheMb}Mb)`);
+    constructor(cacheName, cacheMb) {
+        super(cacheName, `InMemoryCache(${cacheMb}Mb)`, 'memory');
         this.cacheMb = cacheMb;
         this.cache = new LRU({
             max: cacheMb * 1024 * 1024,

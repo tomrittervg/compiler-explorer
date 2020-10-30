@@ -47,8 +47,8 @@ export class OnDiskCache extends BaseCache {
     cacheMb: any;
     cache: LRU<any, any>;
 
-    constructor(path, cacheMb) {
-        super(`OnDiskCache(${path}, ${cacheMb}mb)`);
+    constructor(cacheName, path, cacheMb) {
+        super(cacheName, `OnDiskCache(${path}, ${cacheMb}mb)`, 'disk');
         this.path = path;
         this.cacheMb = cacheMb;
         this.cache = new LRU({
