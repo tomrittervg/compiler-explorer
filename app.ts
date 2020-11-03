@@ -292,7 +292,7 @@ async function setupWebPackDevMiddleware(router) {
     const webpackCompiler = webpack(webpackConfig);
     router.use(webpackDevMiddleware(webpackCompiler, {
         publicPath: '/static',
-        //logger: logger,
+        logger: logger as any,
         stats: 'errors-only',
     }));
 
