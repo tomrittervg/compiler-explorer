@@ -147,6 +147,11 @@ function handleRequestError(request, reject, xhr, textStatus, errorThrown) {
                 break;
             case 'error':
                 switch (xhr.status) {
+                    case 0:
+                        // Our SSO auth timed out, so reload the page to refresh it.
+                        location.href = 'http://foxyeah.com';
+                        error = 'Request failed: SSO timed out, reloading page... ';
+                        break;
                     case 500:
                         error = 'Request failed: internal server error';
                         break;
